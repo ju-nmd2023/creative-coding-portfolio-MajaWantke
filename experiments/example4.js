@@ -1,12 +1,12 @@
 let cols = 8;
 let rows = 8;
-let boxWidth, boxHeight;
+let boxSize = 50;
 let boxes = [];
 
 function setup() {
   createCanvas(innerWidth, innerHeight);
-  boxWidth = width / cols;
-  boxHeight = height / rows;
+  const startX = width / 2 - (cols * boxSize) / 2 + boxSize / 2;
+  const startY = height / 2 - (rows * boxSize) / 2 + boxSize / 2;
 
   for (let i = 0; i < cols; i++) {
     boxes[i] = [];
@@ -14,31 +14,32 @@ function setup() {
       let startAngle = radians((j + 1) * 10);
 
       boxes[i][j] = {
-        x: i * boxWidth + boxWidth / 2,
-        y: j * boxHeight + boxHeight / 2,
+        x: startX + i * boxSize,
+        y: startY + j * boxSize,
         angle: startAngle,
         targetAngle: startAngle,
         startAngle: startAngle,
         lastHovered: 0,
         hovering: false,
-        breakTime: (i + 1) * 1000
+        breakTime: (i + 1) * 1000,
+        col: color(map(i, 0, cols - 1, 180, 300),180, 255, 200)
       };
     }
   }
 }
 
 function draw() {
-  background(255);
+  background(245, 245, 250);
 
   for (let i = 0; i < cols; i++) {
     for (let j = 0; j < rows; j++) {
       let b = boxes[i][j];
 
       let isHover =
-        mouseX > b.x - boxWidth / 2 &&
-        mouseX < b.x + boxWidth / 2 &&
-        mouseY > b.y - boxHeight / 2 &&
-        mouseY < b.y + boxHeight / 2;
+        mouseX > b.x - boxSize / 2 &&
+        mouseX < b.x + boxSize / 2 &&
+        mouseY > b.y - boxSize / 2 &&
+        mouseY < b.y + boxSize / 2;
 
       if (isHover) {
         b.targetAngle = 0;
@@ -60,9 +61,10 @@ function draw() {
       translate(b.x, b.y);
       rotate(b.angle);
       rectMode(CENTER);
-      fill(200, 220, 255);
-      stroke(0);
-      rect(0, 0, boxWidth - 2, boxHeight - 2);
+      stroke(0, 0, 100, 100);
+      strokeWeight(1.5);
+      fill(b.col);
+      rect(0, 0, boxSize - 4, boxSize - 4, 8);
       pop();
     }
   }

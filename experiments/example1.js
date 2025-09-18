@@ -1,13 +1,14 @@
 function setup() {
   createCanvas(innerWidth, innerHeight);
 
-  const x1 = centerX - w / 2;
-  const x2 = centerX + w / 2;
-  segmentCount = Math.ceil((x2 - x1) / segmentSize); 
+  const startPoint = centerX - w / 2;
+  const endPoint = centerX + w / 2;
+  segmentCount = Math.ceil((endPoint - startPoint) / segmentSize); 
 
   for (let i = 0; i < lineCount; i++) {
     lineWeights[i] = new Array(segmentCount).fill(baseWeight);
   }
+  strokeCap(ROUND);
 }
 
 const centerX = innerWidth / 2;
@@ -24,25 +25,29 @@ let segmentCount;
 let lineWeights = [];
 
 function draw() {
-  background(255);
+  background(245, 245, 250);
 
   for (let i = 0; i < lineCount; i++) {
     const y = centerY - h / 2 + i * spacing;
-    const x1 = centerX - w / 2;
+    const startX = centerX - w / 2;
 
     for (let s = 0; s < segmentCount; s++) {
-      const segX = x1 + s * segmentSize + segmentSize / 2;
+      const segX = startX + s * segmentSize + segmentSize / 2;
 
       const d = dist(mouseX, mouseY, segX, y);
 
+      // Calculation of target line weight with help from ChatGPT
       if (d < spacing) {
-        const targetWeight =
-          baseWeight + (1 - d / spacing) * (maxExtra - baseWeight);
-
+        // Calculate target thickness: closer mouse --> thicker line
+        const targetWeight = baseWeight + (1 - d / spacing) * (maxExtra - baseWeight);
+        // Smoothly interpolate current weight towards target
         lineWeights[i][s] = lerp(lineWeights[i][s], targetWeight, 0.07);
       }
 
-      stroke(0);
+      const hue = map(y, centerY - h / 2, centerY + h / 2, 180, 300);
+      const alpha = 200;
+
+      stroke(hue, 150, 255, alpha);
       strokeWeight(lineWeights[i][s]);
       line(segX - segmentSize / 2, y, segX + segmentSize / 2, y);
     }

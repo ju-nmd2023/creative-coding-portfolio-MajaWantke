@@ -2,7 +2,11 @@ function setup() {
   createCanvas(innerWidth, innerHeight);
 
   rotationSlider = createSlider(-45, 45, 0, 1);
-  rotationSlider.position(20, 20);
+  const sliderY = centerY + h / 2 + 65;
+  const sliderX = centerX - rotationSlider.width / 2;
+  rotationSlider.position(sliderX, sliderY);
+
+  rotationSlider.style("accent-color", "#7d5fff");
 }
 
 const centerX = innerWidth / 2;
@@ -10,6 +14,9 @@ const centerY = innerHeight / 2;
 const w = 400;
 const h = 400;
 const pearlRadius = 5;
+
+const spacing = 20;
+const lineCount = h / spacing;
 
 let pearls = [];
 let rotationAngle = 0;
@@ -23,17 +30,23 @@ function draw() {
 }
 
 function drawLines() {
-  background(255);
-  stroke(0);
-  strokeWeight(3);
+  background(245, 245, 250);
+  strokeCap(ROUND);
 
   push();
   translate(centerX, centerY);
   rotate(radians(rotationAngle));
 
-  for (let i = 0; i < h; i += 20) {
-    const y = -h / 2 + i;
-    line(-w / 2, y, w / 2, y);
+  for (let i = 0; i < lineCount; i++) {
+    const y = centerY - h / 2 + i * spacing;
+    const startX = centerX - w / 2;
+
+    const hue = map(y, centerY - h / 2, centerY + h / 2, 180, 300);
+    const alpha = 200;
+    stroke(hue, 150, 255, alpha);
+    strokeWeight(3);
+
+    line(startX - centerX, y - centerY, startX - centerX + w, y - centerY);
   }
   pop();
 }
@@ -55,28 +68,35 @@ function updatePearls() {
 }
 
 function drawPearls() {
-  noStroke();
-  fill(0);
-
   push();
   translate(centerX, centerY);
   rotate(radians(rotationAngle));
 
   for (let p of pearls) {
+    noStroke();
+    fill(330, 100, 255, 180);
     circle(p.x - centerX, p.y - centerY, pearlRadius * 2);
+
+    fill(255, 255, 255, 180);
+    circle(p.x - centerX - 2, p.y - centerY - 2, pearlRadius);
   }
   pop();
 }
 
 function checkMouseHover() {
-  let angle = radians(-rotationAngle);
+  // The following "unrotation" of the mouse position was implemented with the help of ChatGPT.
+  // It maps the rotated canvas back to the original grid so we can test if the mouse is near a horizontal line.
+
+  let angle = radians(-rotationAngle); // undo the current rotation
   let dx = mouseX - centerX;
   let dy = mouseY - centerY;
+  
+  // Apply reverse rotation matrix to (dx, dy)
   let xUnrot = dx * cos(angle) - dy * sin(angle) + centerX;
   let yUnrot = dx * sin(angle) + dy * cos(angle) + centerY;
-
-  for (let i = 0; i < h; i += 20) {
-    const y = centerY - h / 2 + i;
+  
+  for (let i = 0; i < lineCount; i++) {
+    const y = centerY - h / 2 + i * spacing;
     const x1 = centerX - w / 2 + pearlRadius;
     const x2 = centerX + w / 2 - pearlRadius;
 

@@ -1,22 +1,32 @@
 [
   {
     "file": "experiments/example1.js",
-    "name": "Name of your experiment",
-    "description": "Explains the what and the why. What is the main idea? What is the purpose? Describes the coding process and implementation choices and gives a high level system overview."
+    "name": "Rippling Lines",
+    "description": "A dynamic horizontal line field that responds to the viewer’s presence. As the cursor moves across the canvas, line segments thicken smoothly, creating a flowing, ripple-like effect. The closer the cursor, the more pronounced the ripple, giving the impression of a grid alive with motion and interaction."
   },
     {
     "file": "experiments/example2.js",
-    "name": "Name of your experiment",
-    "description": "Explains the what and the why. What is the main idea? What is the purpose? Describes the coding process and implementation choices and gives a high level system overview."
+    "name": "Sliding Pearls",
+    "description": "Horizontal lines can be rotated with a slider. Black pearls appear where the mouse touches the lines and slide along them like beads on threads, creating a gentle sense of movement and interaction across the canvas. The effect suggests rhythm and flow without being tied to a specific narrative."
   },
     {
     "file": "experiments/example3.js",
-    "name": "Name of your experiment",
-    "description": "Explains the what and the why. What is the main idea? What is the purpose? Describes the coding process and implementation choices and gives a high level system overview."
+    "name": "Rotating Grid",
+    "description": "A grid of 8×8 squares that rotate individually when the mouse hovers over them. Each box has a maximum rotation based on its row and smoothly returns to its original angle after the mouse moves away. The interaction creates a dynamic visual rhythm across the grid as boxes respond independently to the viewer’s movement."
   },
     {
     "file": "experiments/example4.js",
-    "name": "Name of your experiment",
-    "description": "Explains the what and the why. What is the main idea? What is the purpose? Describes the coding process and implementation choices and gives a high level system overview."
+    "name": "Returning Grid",
+    "description": "An 8×8 grid of squares with pre-set rotation angles. When the mouse hovers over a box, it rotates to 0°, but after the mouse moves away, it returns to its original angle. The interaction hints at an attempt to bring order to the grid, while the boxes’ rotations preserve a subtle, dynamic irregularity."
+  },
+    {
+    "file": "experiments/example5.js",
+    "name": "Interactive Flowfield Particles",
+    "description": "This piece simulates a dynamic flowfield populated by agents represented as arrows, which move according to local vector directions. A live webcam feed and hand tracking via ml5.js's handpose model allow users to interact with the flowfield in real-time. Closing the hand locally influences the vector field, causing agents to respond and change their directions. The artwork was implemented using example code for flowfields and hand tracking as a foundation."
+  },
+      {
+    "file": "experiments/example6.js",
+    "name": "Interactive Flowfield Trails",
+    "description": "This piece visualizes a set of agents leaving colorful trails as they follow a procedurally generated flowfield. Real-time hand tracking via webcam (ml5.js handpose) allows viewers to manipulate the flowfield, subtly altering the movement patterns of the agents. The implementation builds upon example code for flowfields and hand tracking, enhanced with dynamic color trails to create a visually engaging effect."
   }
 ]
