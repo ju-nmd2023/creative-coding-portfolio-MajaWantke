@@ -104,9 +104,13 @@ function generateField() {
 
 function generateAgents() {
   for (let i = 0; i < 200; i++) {
-    agents.push(
-      new Agent(Math.random() * innerWidth, Math.random() * innerHeight, 4, 0.1)
+    let agent = new Agent(
+      Math.random() * innerWidth,
+      Math.random() * innerHeight,
+      4,
+      0.1
     );
+    agents.push(agent);
   }
 }
 

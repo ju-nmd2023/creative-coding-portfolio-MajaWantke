@@ -10,14 +10,25 @@ const divider = 10;
 let field;
 let agents = [];
 
+
+let synth;
+let lastNoteTimes = [];
+let lastScheduledTime = 0;
+const noteCooldown = 300;
+
+// Pentatonik in C (recommendet from ChatGPT)
+const scale = ["C4", "D4", "E4", "G4", "A4", "C5", "D5", "E5", "G5", "A5"];
+
 class Boid {
-  constructor(x, y, maxSpeed, maxForce) {
+  constructor(x, y, maxSpeed, maxForce, soundBoid = false) {
     this.position = createVector(x, y);
     this.acceleration = createVector(0, 0);
     this.velocity = createVector(0, 0);
     this.maxSpeed = maxSpeed;
     this.maxForce = maxForce;
     this.col = color(random(100, 255), random(100, 200), random(150, 255), 180);
+    this.soundBoid = soundBoid;
+    this.lastNoteTime = 0;
   }
 
   follow(desiredDirection) {
@@ -26,7 +37,32 @@ class Boid {
     let steer = p5.Vector.sub(desiredDirection, this.velocity);
     steer.limit(this.maxForce);
     this.applyForce(steer);
+
+    if (this.soundBoid) { //ensure that a sound boid does not play notes too quickly in succession
+      let now = millis();
+      if (now - this.lastNoteTime > noteCooldown) {
+        this.playNote(desiredDirection.heading());
+        this.lastNoteTime = now;
+      }
+    }
   }
+  
+
+    playNote(heading) {  // implemented with help from ChatGPT: maps boid direction to pentatonic scale and schedules notes safely
+    let norm = map(heading, -PI, PI, 0, scale.length - 1);
+    let note = scale[Math.round(norm)];
+    let now = Tone.now();
+
+    if (now <= lastScheduledTime) {
+        now = lastScheduledTime + 0.01;
+    }
+
+    synth.triggerAttackRelease(note, "8n", now);
+
+    lastScheduledTime = now;
+    }
+
+
 
   applyForce(force) {
     this.acceleration.add(force);
@@ -56,8 +92,13 @@ class Boid {
     push();
     translate(this.position.x, this.position.y);
     noStroke();
-    fill(this.col);
-    ellipse(0, 0, 8);
+    if (this.soundBoid) {
+      fill(255, 100, 100, 200);
+      ellipse(0, 0, 12);
+    } else {
+      fill(this.col);
+      ellipse(0, 0, 8);
+    }
     pop();
   }
 }
@@ -75,9 +116,15 @@ function setup() {
 
   handpose.detectStart(video, getHandsData);
 
+  synth = new Tone.Synth({
+    oscillator: { type: "sine" },
+    envelope: { attack: 0.01, release: 0.2 }
+  }).toDestination();
+
   field = generateField();
   generateAgents();
 }
+
 
 function generateField() {
   let field = [];
@@ -94,11 +141,13 @@ function generateField() {
 
 function generateAgents() {
   for (let i = 0; i < 200; i++) {
+    let soundBoid = i < 5; //limits the amount of simultaneous notes so the sound stays harmonic
     let agent = new Boid(
       Math.random() * innerWidth,
       Math.random() * innerHeight,
       4,
-      0.1
+      0.1,
+      soundBoid
     );
     agents.push(agent);
   }

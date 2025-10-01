@@ -2,22 +2,22 @@
   {
     "file": "experiments/example1.js",
     "name": "Rippling Lines",
-    "description": "A dynamic horizontal line field that responds to the viewer’s presence. As the cursor moves across the canvas, line segments thicken smoothly, creating a flowing, ripple-like effect. The closer the cursor, the more pronounced the ripple, giving the impression of a grid alive with motion and interaction."
+    "description": "This piece extends the original line grid by adding interactive thickness: the closer the mouse is, the thicker the line segments become. Smooth interpolation ensures flowing transitions instead of abrupt changes, creating a ripple-like effect across the canvas. To maintain visual balance, the interaction range and maximum thickness are limited, avoiding overwhelming distortions."
   },
     {
     "file": "experiments/example2.js",
     "name": "Sliding Pearls",
-    "description": "Horizontal lines can be rotated with a slider. Black pearls appear where the mouse touches the lines and slide along them like beads on threads, creating a gentle sense of movement and interaction across the canvas. The effect suggests rhythm and flow without being tied to a specific narrative."
+    "description": "This piece shows a grid of horizontal lines that can be rotated interactively using a slider. Pearls appear when the mouse hovers near a line and start drifting along the rotation direction, giving the illusion of flowing motion. To keep the composition clear, pearls are removed once they leave the bounds of the rotated field."
   },
     {
     "file": "experiments/example3.js",
     "name": "Rotating Grid",
-    "description": "A grid of 8×8 squares that rotate individually when the mouse hovers over them. Each box has a maximum rotation based on its row and smoothly returns to its original angle after the mouse moves away. The interaction creates a dynamic visual rhythm across the grid as boxes respond independently to the viewer’s movement."
+    "description": "This piece shows an 8×8 grid of colorful boxes that react to mouse interaction. When hovered, each box smoothly rotates to a unique maximum angle depending on its row, then slowly resets after a delay. The variation in timing and rotation creates a dynamic, wave-like effect across the grid."
   },
     {
     "file": "experiments/example4.js",
     "name": "Returning Grid",
-    "description": "An 8×8 grid of squares with pre-set rotation angles. When the mouse hovers over a box, it rotates to 0°, but after the mouse moves away, it returns to its original angle. The interaction hints at an attempt to bring order to the grid, while the boxes’ rotations preserve a subtle, dynamic irregularity."
+    "description": "This piese shows a grid of colored boxes, each starting with a unique rotation based on its row. When the mouse hovers over a box, it smoothly rotates back to a neutral angle, then after a delay returns to its original tilted state. The interaction produces a rhythmic and wave-like effect across the grid, with each column responding at different times."
   },
     {
     "file": "experiments/example5.js",
@@ -28,5 +28,10 @@
     "file": "experiments/example6.js",
     "name": "Interactive Flowfield Trails",
     "description": "This piece visualizes a set of agents leaving colorful trails as they follow a procedurally generated flowfield. Real-time hand tracking via webcam (ml5.js handpose) allows viewers to manipulate the flowfield, subtly altering the movement patterns of the agents. The implementation builds upon example code for flowfields and hand tracking, enhanced with dynamic color trails to create a visually engaging effect."
+  },
+    {
+    "file": "experiments/example7.js",
+    "name": "Interactive Flowfield with Harmonic Sound",
+    "description": "In this piece, I extended my interactive flowfield by adding sound, mapping the agents’ movement directions to a pentatonic scale for a naturally harmonic result. To keep the soundscape pleasant and avoid chaos, I limited the number of sound-emitting boids and used a simple sine synth for a soft timbre. The main idea was to combine visuals and audio interactively, but with restrictions that ensured clarity and harmony instead of noise."
   }
 ]

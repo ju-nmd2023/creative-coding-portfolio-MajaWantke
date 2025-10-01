@@ -1,3 +1,4 @@
+
 const nextButton = document.getElementById("next");
 const prevButton = document.getElementById("prev");
 const githubLink = document.getElementById("github");
@@ -30,25 +31,38 @@ function goToExperiment(index) {
   iframe.style.height = "100%";
   iframe.style.border = "none";
 
-  const iframeHTML = `
-    <!DOCTYPE html>
-    <html lang="en">
-      <head>
-        <meta charset="UTF-8" />
-        <title>${experiment.name}</title>
-        <script src="https://cdn.jsdelivr.net/npm/p5@1.7.0/lib/p5.js"></script>
-        <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
-        <script src="${experiment.file}"></script>
-        <style>
-          html, body { margin:0; padding:0; overflow:hidden; }
-          canvas { display:block; }
-        </style>
-      </head>
-      <body></body>
-    </html>
-  `;
+  const bodyElement = document.createElement("div");
 
-  iframe.srcdoc = iframeHTML;
+  const p5script = document.createElement("script");
+  p5script.type = "text/javascript";
+  p5script.src = "assets/p5.min.js";
+  p5script.defer = true;
+  bodyElement.appendChild(p5script);
+
+  const toneScript = document.createElement("script");
+  toneScript.type = "text/javascript";
+  toneScript.src = "https://unpkg.com/tone";
+  toneScript.defer = true;
+  bodyElement.appendChild(toneScript);
+
+  const ml5Script = document.createElement("script");
+  ml5Script.type = "text/javascript";
+  ml5Script.src = "https://unpkg.com/ml5@latest/dist/ml5.min.js";
+  ml5Script.defer = true;
+  bodyElement.appendChild(ml5Script);
+
+  const codeScript = document.createElement("script");
+  codeScript.type = "text/javascript";
+  codeScript.src = experiment.file;
+  codeScript.defer = true;
+  bodyElement.appendChild(codeScript);
+
+  const styleLink = document.createElement("link");
+  styleLink.rel = "stylesheet";
+  styleLink.href = "assets/iframe.css";
+  bodyElement.appendChild(styleLink);
+
+  iframe.srcdoc = bodyElement.innerHTML;
   p5container.appendChild(iframe);
 
   nameText.innerText = experiment.name;
